@@ -1,48 +1,72 @@
 <!DOCTYPE html>
-<html lang="pt">
-
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Página com exemplo de Cadastro de usuário</title>
-
+    <link rel="stylesheet" href="cadastro.css">
+    <link rel="stylesheet" href="normalize.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <!-- Start of suporteambitechelp Zendesk Widget script -->
+<script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=cdd1116a-5c6f-40ac-963d-2425f6f970b2"> </script>
+<!-- End of suporteambitechelp Zendesk Widget script -->
 </head>
-
 <body>
-
-    <form id="form_cadastro" method="post" onsubmit="return cadastrar()">
-        Nome: <input type="text" name="nome" required minlength="4">
-        <br>
-        Usuário: <input type="text" name="login" required minlength="4">
-        <br>
-        Senha: <input type="password" name="senha" required minlength="4">
-        <br>
-        <button id="btn_entrar">Cadastrar</button>
+     <header class="menu">
+          <a class="logo" href="index.html">
+            <img src="./imagens/ambitec (1).png" alt="">
+        </a>
+        <nav>
+            <ul class="texto">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="produto.html">Produto</a></li>
+                <li><a href="dados.html">Dados</a></li>
+                <li><a href="login.html">Login</a></li>
+                
+            </ul>
+            
+        </nav>
+    </header>
+    <div class="fotinhaFundo"></div>
+    <div class="borda" >
+        <h1 class="top">CADASTRAR</h1>
+        <form action="" class="texto_caixa" id="form_cadastro" method="post">
+            <label class="label" >Nome</label> <br>
+            <input class='input'type="text" placeholder="Nome" name="nome" required><br><br>
+            <label class="label" >Senha</label> <br>
+            <input class="input" type="password" placeholder="Senha" id="senha" name="senha" required><br><br>
+            <label class="label" >E-mail</label> <br>
+            <input class="input" type="text" placeholder="E-mail" name="email" required>
+            <button style="margin-left: 20px;" class = 'efeitoBotao'id="btn_entrar" type="button" onclick="cadastrar()">Cadastrar</button>
+            <br>
+            <br>
     </form>
+        <img src="./Modelo/aguarde2.gif" id="img_aguarde" style="display: none;" width="100px">
     
-    <img src="aguarde2.gif" id="img_aguarde" style="display: none;" width="100px">
-    
-    <div id="div_erro" style="background-color: sandybrown; color: maroon; display: none;">
-        Erro no cadastro
+        <div id="div_erro" style="background-color: sandybrown; color: maroon; display: none;"></div>
     </div>
+
 
 </body>
 
 </html>
+
+<!-- <script src="funcao_login.js"></script> -->
+
 <script>
 
     function cadastrar() {
         aguardar();
         var formulario = new URLSearchParams(new FormData(form_cadastro));
-        fetch("/usuarios/cadastrar", {
+        fetch('/usuarios/cadastrar', {
             method: "POST",
             body: formulario
         }).then(function (response) {
             
             if (response.ok) {
 
-                window.location.href='login.html';
+                window.location.href='./login.html';
 
             } else {
 

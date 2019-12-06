@@ -7,7 +7,7 @@
 */ 
 
 // se usar 'true' aqui, os dados serão gerados aleatórios e não recebidos da placa arduíno
-const gerar_dados_aleatorios = true; 
+const gerar_dados_aleatorios = false; 
 
 // leitura dos dados do Arduino
 var porta_serial = require('serialport');
@@ -26,7 +26,7 @@ function iniciar_escuta() {
         // este bloco trata a verificação de Arduino conectado (inicio)
 
         var entradas_seriais_arduino = entradas_seriais.filter(entrada_serial => {
-            return entrada_serial.vendorId == 2341 && entrada_serial.productId == 8037;
+            return entrada_serial.vendorId == 2341 && entrada_serial.productId == 43;
         });
 
         if (entradas_seriais_arduino.length != 1) {
@@ -47,7 +47,7 @@ function iniciar_escuta() {
         // o baudRate deve ser igual ao valor em
         // Serial.begin(xxx) do Arduino (ex: 9600 ou 115200)
         var arduino = new porta_serial(arduinoCom, {
-            baudRate: 115200
+            baudRate: 9600
         });
 
         var parser = new leitura_recebida();
@@ -76,25 +76,27 @@ function iniciar_escuta() {
 
 // função que recebe valores de temperatura e umidade
 // e faz um insert no banco de dados
-function registrar_leitura(temperatura, umidade) {
+function registrar_leitura(vTopo) {
 
     if (efetuando_insert) {
         console.log('Execução em curso. Aguardando 7s...');
         setTimeout(() => {
-            registrar_leitura(temperatura, umidade);
+            registrar_leitura(vTopo);
         }, 7000);
         return;
     }
 
     efetuando_insert = true;
 
-    console.log(`temperatura: ${temperatura}`);
-    console.log(`umidade: ${umidade}`);
+    console.log(`obstaculo: ${vTopo}`);
+;
 
     banco.conectar().then(() => {
 
-        return banco.sql.query(`INSERT into leitura (temperatura, umidade, momento)
-                                values (${temperatura}, ${umidade}, CONVERT(Datetime, '${agora()}', 120));`);
+        return banco.sql.query(`INSERT into Eventos (vTopo, dataHora)
+                                 values (
+                                    
+                                    ${vTopo}, CONVERT(Datetime, '${agora()}', 120));`);
 
     }).catch(erro => {
 
@@ -123,8 +125,8 @@ if (gerar_dados_aleatorios) {
 	// dados aleatórios
 	setInterval(function() {
 		console.log('Gerando valores aleatórios!');
-		registrar_leitura(Math.min(Math.random()*100, 60), Math.min(Math.random()*200, 100))
-	}, 5000);
+		registrar_leitura(parseInt(Math.random()+0.5))
+	}, 10000);
 } else {
 	// iniciando a "escuta" de dispositivos Arduino.
 	console.log('Iniciando obtenção de valores do Arduino!');

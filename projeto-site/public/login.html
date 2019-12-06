@@ -1,78 +1,112 @@
 <!DOCTYPE html>
-<html lang="pt">
-
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Página com exemplo de Autenticação (Login)</title>
-
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="normalize.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <!-- Start of suporteambitechelp Zendesk Widget script -->
+<script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=cdd1116a-5c6f-40ac-963d-2425f6f970b2"> </script>
+<!-- End of suporteambitechelp Zendesk Widget script -->
 </head>
-
 <body>
-
-    <form id="form_login" method="post" onsubmit="return entrar()">
-        Usuário: <input type="text" name="login">
-        <br>
-        Senha: <input type="password" name="senha">
-        <br>
-        <button id="btn_entrar">Entrar</button>
+    
+    <header class="menu">
+          <a class="logo" href="index.html">
+            <img src="./imagens/ambitec (1).png" alt="">
+        </a>
+        <nav>
+            <ul class="texto">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="produto.html">Produto</a></li>
+                <li><a href="dados.html">Dados</a></li>
+                <li><a href="login.html">Login</a></li>
+                
+            </ul>
+            
+        </nav>
+    </header>
+    <div class="fotinhaFundo"></div>
+    <div class="borda" >
+        <h1 class="top">INICIAR SESSÃO</h1>
+        <form action="" class="texto_caixa" method="post" id="form_login">
+        <div class="login">
+            <label class="label" >Nome de usuario</label> 
+            
+            <input class="input" type="text"placeholder="Usuario" id="usuario" name="login" required>
+        </div> 
+        
+        <div class="senha">
+            <label class="label">Senha</label> 
+            <input class="input" type="password" placeholder="Senha" id="senha" name="senha" required>
+        </div>   
+        <div class="check">
+            
+            <input class="checkEfeito" type="checkbox" value="1"> 
+            <label class="checkText">Lembrar</label>
+            
+        </div>
+        <div class="botao">
+            <button type="button" class="efeitoBotao" id="btn_entrar" onclick="entrar()" > ENTRAR </button>
+        </div>
+    
+        <div class="ajuda">
+            <p>
+                <a class="teste" href="#">Recuperar senha</a>
+            </p>
+            
+            <p>
+                <a class="teste" href="#">Recuperar usuário</a>
+            </p>
+            
+        </div>
     </form>
-    
-    <img src="aguarde.gif" id="img_aguarde" style="display: none;">
-    
-    <div id="div_erro" style="background-color: sandybrown; color: maroon; display: none;">
+        <div class="cadastro">
+            <p>
+                <a class="teste" href="cadastro.html">Cadastre-se</a>
+            </p>
+        </div>
+        
         
     </div>
-
+</div>
 </body>
-
 </html>
 <script>
-
     function entrar() {
-        aguardar();
-        var formulario = new URLSearchParams(new FormData(form_login));
-        fetch("/usuarios/autenticar", {
-            method: "POST",
-            body: formulario
-        }).then(resposta => {
-            
-            if (resposta.ok) {
+    
+    var formulario = new URLSearchParams(new FormData(form_login));
+    fetch("/usuarios/autenticar", {
+        method: "POST",
+        body: formulario
+    }).then(resposta => {
+        
+        if (resposta.ok) {
 
-                resposta.json().then(json => {
+            resposta.json().then(json => {
 
-                    sessionStorage.login_usuario_meuapp = json.login;
-                    sessionStorage.nome_usuario_meuapp = json.nome;
-                    
-                    window.location.href = 'tempo-real.html';
-                });
+                sessionStorage.login_usuario_meuapp = json.email;
+                sessionStorage.nome_usuario_meuapp = json.nome;
+                
+                window.location.href = './dados.html';
+            });
 
-            } else {
+        } else {
 
-                console.log('Erro de login!');
+            console.log('Erro de login!');
 
-                response.text().then(texto => {
-                    console.error(texto);
-                    finalizar_aguardar(texto);
-                });
-            }
-        });
+            resposta.text().then(texto => {
+                console.error(texto);
+                finalizar_aguardar(texto);
+            });
+        }
+    });
 
-        return false;
-    }
+    return false;
+}
 
-    function aguardar() {
-        btn_entrar.disabled = true;
-        img_aguarde.style.display = 'block';
-        div_erro.style.display = 'none';
-    }
-
-    function finalizar_aguardar(resposta) {
-        btn_entrar.disabled = false;
-        img_aguarde.style.display= 'none';
-        div_erro.style.display = 'block';
-        div_erro.innerHTML = resposta;
-    }
 
 </script>

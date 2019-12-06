@@ -2,10 +2,10 @@ var desenvolvimento = false;
 
 var configuracoes = {
     producao: {
-        server: "testexyzwtrtwr.database.windows.net",
-        user: "adminbandtec",
-        password: "b@ndtec2018",
-        database: "gf2018",
+        server: "srvgrupo10.database.windows.net",
+        user: "usergrupo10",
+        password: "#Gfgrupo10",
+        database: "bdgrupo10",
         options: {
             encrypt: true
         },
