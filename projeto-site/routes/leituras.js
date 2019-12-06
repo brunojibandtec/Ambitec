@@ -36,7 +36,7 @@ router.get('/historico', function(req, res, next) {
 	const instrucaoSql = `select top 10 DATEPART(Day, dataHora) as Dia, DATEPART(Hour, dataHora) as Hora, 
 						DATEPART(Minute, dataHora) as Minuto, sum(vTopo) as Qtd from Eventos 
 						group by DATEPART(Day, dataHora), DATEPART(Hour, dataHora), DATEPART(Minute, dataHora) 
-						order by Dia desc, Hora desc, Minuto desc`;
+						order by Dia, Hora, Minuto`;
 	
 
 	sequelize.query(instrucaoSql, {

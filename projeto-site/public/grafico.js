@@ -77,7 +77,7 @@
                     console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
                     resposta.reverse();
-                    var oi = resposta[0].reverse();
+                    var oi = resposta[0];
                     console.log(resposta);
                     for (i = 0; i < oi.length; i++) {
                         var registro = oi[i];
